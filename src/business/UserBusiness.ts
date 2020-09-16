@@ -46,17 +46,22 @@ export class UserBusiness {
     }
 
     public async getUserByEmail (
-        email: string, 
+        input: string, 
         password: string
     ) {
-        if (!email || !password) {
+        if (!input || !password) {
             throw new InvalidParameterError("Favor preencher todos os campos.")
         }
 
-        const user = await this.userDatabase.getUserByEmail(email);
+        let user
+        if(input.indexOf("@") !== -1) {
+            user = await this.userDatabase.getUserByEmail(input)
+        } else {
+            user = await this.userDatabase.getUserByNickname(input)
+        }
 
         if (!user) {
-            throw new NotFoundError("Usuário não encontrado.")
+            throw new NotFoundError("Usuário ou senha incorretos.")
         }
 
         const isPasswordCorrect = await this.hashManager.compare(

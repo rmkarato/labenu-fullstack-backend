@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-app.use("/users", userRouter);
+app.use("/user", userRouter);
 
 app.get("/test", async (req: Request, res: Response) => {
     try {
