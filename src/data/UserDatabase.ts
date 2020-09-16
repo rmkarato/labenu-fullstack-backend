@@ -20,23 +20,21 @@ export class UserDatabase extends BaseDatabase {
     public async createUser(
         user: User
     ) :Promise<void> {
-        await super.getConnection()
-            .raw(`
-                INSERT INTO ${this.TABLE_NAME} (id, name, email, nickname, password)
-                VALUES (
-                    '${user.getId()}'
-                    '${user.getName()}'
-                    '${user.getEmail()}'
-                    '${user.getNickname()}'
-                    '${user.getPassword()}'
-                )
-            `);
+        await this.getConnection()
+            .insert({
+                id: user.getId(),
+                name: user.getName(),
+                email: user.getEmail(),
+                nickname: user.getNickname(),
+                password: user.getPassword(),
+            })
+            .into(this.TABLE_NAME)
     }
     
     public async getUserByEmail(email: string) :Promise<User | undefined> {
         const result = await super.getConnection()
             .raw(`
-                SELECT * from ${this.TABLE_NAME} WHERE email = '${email}
+                SELECT * from ${this.TABLE_NAME} WHERE email = '${email}'
             `);
 
             return this.toModel(result[0][0]);

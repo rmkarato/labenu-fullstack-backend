@@ -4,6 +4,7 @@ import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 import { UserDatabase } from "../data/UserDatabase";
 import { UserBusiness } from "../business/UserBusiness";
+import { BaseDatabase } from "../data/BaseDatabase";
 
 export class UserController {
     private static UserBusiness = new UserBusiness(
@@ -15,7 +16,7 @@ export class UserController {
 
     public async signUp(req: Request, res: Response) {
         try {
-            const result = await UserController.UserBusiness.signUp(
+            const result = await UserController.UserBusiness.createUser(
                 req.body.name,
                 req.body.email,
                 req.body.nickname,
@@ -32,6 +33,7 @@ export class UserController {
                     message: error.message
                 });
         }
+        await BaseDatabase.destroyConnection();
     }
 
     public async login(req: Request, res: Response) {
@@ -39,7 +41,7 @@ export class UserController {
             const email = req.body.email;
             const password = req.body.password;
 
-            const result = await UserController.UserBusiness.login(
+            const result = await UserController.UserBusiness.getUserByEmail(
                 email,
                 password
             );
@@ -54,5 +56,6 @@ export class UserController {
                     message: error.message
                 });
         }
+        await BaseDatabase.destroyConnection();
     }
 }

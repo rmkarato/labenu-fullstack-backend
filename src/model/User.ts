@@ -1,5 +1,3 @@
-import { InvalidParameterError } from "../errors/InvalidParameterError";
-
 export class User {
     constructor(
         private id: string,
@@ -28,4 +26,26 @@ export class User {
     public getPassword(): string {
         return this.password;
     }
+
+    public static toUserModel(user: any): User {
+        return new User(
+            user.id,
+            user.name,
+            user.email,
+            user.nickname,
+            user.password
+        );
+    }
+}
+
+export interface UserInputDTO {
+    name: string;
+    email: string;
+    nickname: string;
+    password: string;
+}
+
+export interface LoginInputDTO {
+    email: string;
+    password: string;
 }
