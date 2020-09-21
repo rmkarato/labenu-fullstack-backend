@@ -37,4 +37,12 @@ export class MusicBusiness {
 
         return musics;
     }
+
+    public async getMusicbyId(
+        id: string
+    ): Promise<string> {
+        const music = await this.musicDatabase.getMusicById(id);
+
+        return music;
+    }
 }

@@ -21,11 +21,22 @@ export class MusicDatabase extends BaseDatabase {
             .into(this.TABLE_NAME);
     }
 
-    public async getMusics(): Promise<Music> {
+    public async getMusics(): Promise<any> {
         const result = await super.getConnection()
             .select("*")
             .from(this.TABLE_NAME);
 
-            return result[0];
+        return result;
+    }
+
+    public async getMusicById(
+        id: string
+    ): Promise<any> {
+        const result = await super.getConnection()
+        .select("*")
+        .from(this.TABLE_NAME)
+        .where({ id })
+
+    return result;
     }
 }

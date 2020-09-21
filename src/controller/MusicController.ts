@@ -72,4 +72,31 @@ export class MusicController {
                     });
         }
     }
+
+    public async getMusicById(req: Request, res: Response) {
+        try {
+            const token = req.headers.authorization as string;
+            
+            const authenticator = new Authenticator();
+            const authenticationData = authenticator.getData(token);
+
+            if(!authenticationData) {
+                throw new Error("Token não autorizado.")
+            }
+
+            const id = req.params.id;
+
+            const music = await MusicController.MusicBusiness.getMusicbyId(id);
+
+            res
+                .status(200)
+                .send(music)
+        } catch(error) {
+            res
+            .status(error.errorCode || 400)
+            .send({
+                message: error.message
+            });
+        }
+    }
 }
