@@ -25,7 +25,10 @@ export class UserController {
             
             res
                 .status(200)
-                .send(result);
+                .send({
+                    message: "Usuário cadastrado com sucesso",
+                    result
+                });
         } catch(error) {
             res
                 .status(error.errorCode || 400)

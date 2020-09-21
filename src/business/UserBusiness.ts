@@ -61,7 +61,7 @@ export class UserBusiness {
         }
 
         if (!user) {
-            throw new NotFoundError("Usuário ou senha incorretos.")
+            throw new NotFoundError("Usuário não encontrado.")
         }
 
         const isPasswordCorrect = await this.hashManager.compare(
@@ -70,7 +70,7 @@ export class UserBusiness {
         );
 
         if(!isPasswordCorrect) {
-            throw new InvalidParameterError("Usuário ou senha incorretos.");
+            throw new InvalidParameterError("Senha incorreta.");
         }
 
         const token = this.authenticator.generateToken({

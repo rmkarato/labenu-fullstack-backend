@@ -3,9 +3,8 @@ export class Music {
         private id: string,
         private title: string,
         private author: string,
-        private date: Date,
+        private date: string,
         private file: string,
-        private genre: string[],
         private album: string
     ) {}
 
@@ -21,7 +20,7 @@ export class Music {
         return this.author;
     }
 
-    public getDate(): Date {
+    public getDate(): string {
         return this.date;
     }
 
@@ -29,31 +28,29 @@ export class Music {
         return this.file;
     }
 
-    public getGenre(): string[] {
-        return this.genre;
-    }
-
     public getAlbum(): string {
         return this.album;
     }
 
-    public static toMusicModel(music: any): Music {
-        return new Music(
-            music.id,
-            music.title,
-            music.author,
-            music.date,
-            music.file,
-            music.genre,
-            music.album
+    public static toMusicModel(music?: any): Music | undefined {
+        return (
+            music &&
+            new Music(
+                music.id,
+                music.title,
+                music.author,
+                music.date,
+                music.file,
+                music.album
+            )
         );
     }
 }
 
 export interface MusicInputDTO {
     title: string;
-    date: Date;
+    author: string;
+    date: string;
     file: string;
-    genre: string[];
     album: string;
 }
