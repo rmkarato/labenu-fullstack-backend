@@ -3,13 +3,17 @@ import dotenv from "dotenv";
 import { AddressInfo } from "net";
 
 import { userRouter } from "./router/UserRouter";
+import { musicRouter } from "./router/MusicRouter";
+import { genreRouter } from "./router/GenreRouter";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-app.use("/users", userRouter);
+app.use("/user", userRouter);
+app.use("/music", musicRouter);
+app.use("/genre", genreRouter);
 
 app.get("/test", async (req: Request, res: Response) => {
     try {

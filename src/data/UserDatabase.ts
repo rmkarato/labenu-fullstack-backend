@@ -20,7 +20,7 @@ export class UserDatabase extends BaseDatabase {
     public async createUser(
         user: User
     ) :Promise<void> {
-        await this.getConnection()
+        await super.getConnection()
             .insert({
                 id: user.getId(),
                 name: user.getName(),
@@ -33,10 +33,28 @@ export class UserDatabase extends BaseDatabase {
     
     public async getUserByEmail(email: string) :Promise<User | undefined> {
         const result = await super.getConnection()
-            .raw(`
-                SELECT * from ${this.TABLE_NAME} WHERE email = '${email}'
-            `);
+            .select("*")
+            .from(this.TABLE_NAME)
+            .where({ email })
 
-            return this.toModel(result[0][0]);
+            return this.toModel(result[0]);
+    }
+
+    public async getUserByNickname(nickname: string) :Promise<User | undefined> {
+        const result = await super.getConnection()
+            .select("*")
+            .from(this.TABLE_NAME)
+            .where({ nickname })
+
+            return this.toModel(result[0])
+    }
+
+    public async getUserById(id: string) :Promise<User | undefined> {
+        const result = await super.getConnection()
+            .select("*")
+            .from(this.TABLE_NAME)
+            .where({ id })
+
+            return this.toModel(result[0])
     }
 }

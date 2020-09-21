@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
+import { BaseDatabase } from "../data/BaseDatabase";
 import { UserDatabase } from "../data/UserDatabase";
 import { UserBusiness } from "../business/UserBusiness";
-import { BaseDatabase } from "../data/BaseDatabase";
 
 export class UserController {
     private static UserBusiness = new UserBusiness(
@@ -25,7 +25,10 @@ export class UserController {
             
             res
                 .status(200)
-                .send(result);
+                .send({
+                    message: "Usuário cadastrado com sucesso",
+                    result
+                });
         } catch(error) {
             res
                 .status(error.errorCode || 400)
