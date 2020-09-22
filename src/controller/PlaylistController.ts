@@ -5,11 +5,15 @@ import { BaseDatabase } from "../data/BaseDatabase";
 import { PlaylistDatabase } from "../data/PlaylistDatabase";
 import { PlaylistBusiness } from "../business/PlaylistBusiness";
 import { PlaylistInputDTO } from "../model/Playlist";
+import { UserDatabase } from "../data/UserDatabase";
+import { MusicDatabase } from "../data/MusicDatabase";
 
 export class PlaylistController {
     private static PlaylistBusiness = new PlaylistBusiness(
         new Authenticator,
         new IdGenerator,
+        new UserDatabase,
+        new MusicDatabase,
         new PlaylistDatabase
     );
 
@@ -45,5 +49,26 @@ export class PlaylistController {
                 });
         }
         await BaseDatabase.destroyConnection();
+    }
+
+    public async addMusicToPlaylist(req: Request, res: Response) {
+        try{
+            const token = req.headers.authorization as string;
+            const { musicId, playlistId } = req.body;
+
+            await PlaylistController.PlaylistBusiness.addMusicToPlaylist(token, musicId, playlistId)
+            
+            res
+                .status(200)
+                .send({
+                    message: "Música adicionada à playlist com sucesso."
+                });
+        } catch(error) {
+            res
+                .status(error.errorCode || 400)
+                .send({
+                    message: error.message
+                });
+        }
     }
 }
