@@ -43,6 +43,7 @@ export enum GenreName {
     Blues = "Blues",
     Clássica = "Clássica",
     Country = "Country",
+    Dance = "Dance",
     Eletrônica = "Eletrônica",
     Forró = "Forró",
     Funk = "Funk",

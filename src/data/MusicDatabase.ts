@@ -1,7 +1,7 @@
 import moment from "moment";
 import { BaseDatabase } from "./BaseDatabase";
 import { GenreDatabase } from "./GenreDatabase";
-import { Music } from "../model/Music";
+import { Music, MusicOutputDTO } from "../model/Music";
 
 export class MusicDatabase extends BaseDatabase {
     protected TABLE_NAME: string = "SoundLabe_Music";
@@ -31,8 +31,8 @@ export class MusicDatabase extends BaseDatabase {
 
     public async getMusicById(
         id: string
-    ): Promise<any> {
-        const result = await super.getConnection()
+    ): Promise<MusicOutputDTO> {
+        const result: MusicOutputDTO | any = await super.getConnection()
             .select("*")
             .from(this.TABLE_NAME)
             .where({ id })

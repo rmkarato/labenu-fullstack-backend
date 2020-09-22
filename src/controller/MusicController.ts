@@ -6,12 +6,21 @@ import { MusicDatabase } from "../data/MusicDatabase";
 import { MusicBusiness } from "../business//MusicBusiness";
 import { MusicInputDTO } from "../model/Music";
 import { GenreDatabase } from "../data/GenreDatabase";
+import { GenreBusiness } from "../business/GenreBusiness";
+import { UserDatabase } from "../data/UserDatabase";
 
 export class MusicController {
     private static MusicBusiness = new MusicBusiness(
         new Authenticator(),
         new IdGenerator(),
         new MusicDatabase(),
+        new GenreDatabase()
+    );
+    
+    private static GenreBusiness = new GenreBusiness(
+        new Authenticator(),
+        new IdGenerator(),
+        new UserDatabase(),
         new GenreDatabase()
     );
 
@@ -75,13 +84,6 @@ export class MusicController {
     public async getMusicById(req: Request, res: Response) {
         try {
             const token = req.headers.authorization as string;
-            
-            const authenticator = new Authenticator();
-            const authenticationData = authenticator.getData(token);
-
-            if(!authenticationData) {
-                throw new Error("Token não autorizado.")
-            }
 
             const id = req.params.id;
             

@@ -4,7 +4,7 @@ import { MusicDatabase } from "../data/MusicDatabase";
 import { GenreDatabase } from "../data/GenreDatabase";
 import { Music, MusicAndGenreOutputDTO, MusicInputDTO, MusicOutputDTO } from "../model/Music";
 import { InvalidParameterError } from "../errors/InvalidParameterError";
-import { Genre, GenreInputDTO, GenreToMusic, InsertGenreToMusicInputDTO } from "../model/Genre";
+import { InsertGenreToMusicInputDTO } from "../model/Genre";
 import { GenericError } from "../errors/GenericError";
 
 export class MusicBusiness {
@@ -92,7 +92,7 @@ export class MusicBusiness {
             throw new GenericError("Gênero não encontrado.")
         }
 
-        const genreNames: string[] = await this.genreDatabase.getGenreByName(genreId)
+        const genreNames: string[] = await this.genreDatabase.getGenreById(genreId)
 
         if(genreId.length !== genreNames.length) {
             throw new GenericError("Algum gênero não foi encontrado.")

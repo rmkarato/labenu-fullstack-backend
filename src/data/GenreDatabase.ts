@@ -12,6 +12,27 @@ export class GenreDatabase extends BaseDatabase {
         )
     }
 
+    public async addGenre(
+        genre: Genre
+    ): Promise<void> {
+        await super.getConnection()
+            .insert({
+                id: genre.getId(),
+                genre: genre.getGenre()
+            })
+            .into(this.TABLE_NAME)
+    }
+
+    public async getNameGenre(
+        genre: string
+    ): Promise<Genre | undefined> {
+        const result = await super.getConnection()
+            .select("*")
+            .from(this.TABLE_NAME)
+            .where({ genre })
+        return this.toModel(result[0])
+    }
+
     public async getGenres(): Promise<Genre[]> {
         const result = await super.getConnection()
            .raw(`
@@ -35,7 +56,7 @@ export class GenreDatabase extends BaseDatabase {
     public async getGenreByName(
         genreName: string[]
     ): Promise<string[]> {
-        let id: string[] = [];
+        let genreId: string[] = [];
 
         for (let genre of genreName) {
             const result = await super.getConnection()
@@ -44,9 +65,26 @@ export class GenreDatabase extends BaseDatabase {
                     FROM ${this.TABLE_NAME}
                     WHERE genre IN("${genre}")
                 `)
-            id.push(result[0][0].id)
+            genreId.push(result[0][0].id)
         }
-        return id;
+        return genreId;
+    }
+
+    public async getGenreById(
+        genreId: string[]
+    ): Promise<string[]> {
+        let genreName: string[] | any = [];
+
+        for (let genre of genreId) {
+            const result = await super.getConnection()
+                .raw(`
+                    SELECT genre
+                    FROM ${this.TABLE_NAME}
+                    WHERE id IN("${genre}")
+                `)
+            genreName.push(result[0][0].genre)
+        }
+        return genreName;
     }
 
     public async getGenreByMusicId(
