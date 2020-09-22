@@ -14,30 +14,6 @@ export class GenreBusiness {
         private genreDatabase: GenreDatabase
     ) {}
 
-    // public async createGenre(
-    //     input: GenreInputDTO,
-    // ): Promise<void> {
-
-    //     if(!input.genre) {
-    //         throw new InvalidParameterError("Favor preencher todos os campos.")
-    //     }
-
-    //     const id = this.idGenerator.generateId();
-
-    //     const genre = await this.genreDatabase.verifyGenre(input.genre);
-
-    //     if(genre) {
-    //         throw new GenericError("Esse gênero já existe.")
-    //     }
-
-    //     await this.genreDatabase.createGenre(
-    //         new Genre(
-    //             id,
-    //             input.genre
-    //         )
-    //     );
-    // }
-
     public async getAllGenres(): Promise<any> {
         const genres = await this.genreDatabase.getGenres();
 

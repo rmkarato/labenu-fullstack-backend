@@ -4,7 +4,6 @@ import { IdGenerator } from "../services/IdGenerator";
 import { BaseDatabase } from "../data/BaseDatabase";
 import { MusicDatabase } from "../data/MusicDatabase";
 import { MusicBusiness } from "../business//MusicBusiness";
-import { GenreBusiness } from "../business/GenreBusiness";
 import { MusicInputDTO } from "../model/Music";
 import { GenreDatabase } from "../data/GenreDatabase";
 
@@ -13,12 +12,6 @@ export class MusicController {
         new Authenticator(),
         new IdGenerator(),
         new MusicDatabase(),
-        new GenreDatabase()
-    );
-
-    private static GenreBusiness = new GenreBusiness(
-        new Authenticator(),
-        new IdGenerator(),
         new GenreDatabase()
     );
 
@@ -92,7 +85,7 @@ export class MusicController {
 
             const id = req.params.id;
             
-            const music = await MusicController.MusicBusiness.getMusicbyId(id);
+            const music = await MusicController.MusicBusiness.getMusicbyId(id, token);
 
             res
                 .status(200)

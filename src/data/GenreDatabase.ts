@@ -12,17 +12,6 @@ export class GenreDatabase extends BaseDatabase {
         )
     }
 
-    public async createGenre(
-        genre: Genre
-    ): Promise<void> {
-        await super.getConnection()
-            .insert({
-                id: genre.getId(),
-                genre: genre.getGenre(),
-            })
-            .into(this.TABLE_NAME);
-    }
-
     public async getGenres(): Promise<Genre[]> {
         const result = await super.getConnection()
            .raw(`
