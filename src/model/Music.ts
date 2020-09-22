@@ -5,7 +5,7 @@ export class Music {
         private author: string,
         private date: string,
         private file: string,
-        private album: string
+        private album: string,
     ) {}
 
     public getId(): string {
@@ -53,4 +53,18 @@ export interface MusicInputDTO {
     date: string;
     file: string;
     album: string;
+}
+
+export interface MusicOutputDTO {
+    id: string;
+    title: string;
+    author: string;
+    date: string;
+    file: string;
+    album: string;
+}
+
+export interface MusicAndGenreOutputDTO {
+    music: MusicOutputDTO,
+    genres: string[]
 }

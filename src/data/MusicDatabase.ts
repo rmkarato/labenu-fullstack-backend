@@ -1,10 +1,10 @@
 import moment from "moment";
 import { BaseDatabase } from "./BaseDatabase";
+import { GenreDatabase } from "./GenreDatabase";
 import { Music } from "../model/Music";
 
 export class MusicDatabase extends BaseDatabase {
     protected TABLE_NAME: string = "SoundLabe_Music";
-    protected TABLE_NAME_GENRE: string = "SoundLabe_Genre"
 
     public async createMusic(
         music: Music
@@ -14,7 +14,7 @@ export class MusicDatabase extends BaseDatabase {
                 id: music.getId(),
                 title: music.getTitle(),
                 author: music.getAuthor(),
-                date: music.getDate(),
+                date: moment(music.getDate(), "DD/MM/YYYY").format("YYYY-MM-DD"),
                 file: music.getFile(),
                 album: music.getAlbum(),
             })
@@ -33,10 +33,10 @@ export class MusicDatabase extends BaseDatabase {
         id: string
     ): Promise<any> {
         const result = await super.getConnection()
-        .select("*")
-        .from(this.TABLE_NAME)
-        .where({ id })
+            .select("*")
+            .from(this.TABLE_NAME)
+            .where({ id })
 
-    return result;
+        return result;
     }
 }

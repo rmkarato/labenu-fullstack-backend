@@ -9,12 +9,22 @@ import { GenreInputDTO } from "../model/Genre";
 
 export class GenreController {
     private static GenreBusiness = new GenreBusiness(
+        new Authenticator(),
         new IdGenerator(),
         new GenreDatabase()
     );
     
     public async createGenre(req: Request, res: Response) {
         try {
+            const token = req.headers.authorization as string;
+            
+            const authenticator = new Authenticator();
+            const authenticationData = authenticator.getData(token);
+
+            if(!authenticationData) {
+                throw new Error("Token não autorizado.")
+            }
+
             const genreInput: GenreInputDTO = {
                 genre: req.body.genre
             };
@@ -34,5 +44,30 @@ export class GenreController {
                 });
         }
         await BaseDatabase.destroyConnection();
+    }
+
+    public async getAllGenres(req: Request, res: Response) {
+        try {
+            const token = req.headers.authorization as string;
+            
+            const authenticator = new Authenticator();
+            const authenticationData = authenticator.getData(token);
+
+            if(!authenticationData) {
+                throw new Error("Token não autorizado.")
+            }
+
+            const genres = await GenreController.GenreBusiness.getAllGenres()
+
+            res
+                .status(200)
+                .send(genres);
+        } catch(error) {
+            res
+            .status(error.errorCode || 400)
+            .send({
+                message: error.message
+            });
+        }
     }
 }
