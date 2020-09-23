@@ -51,6 +51,31 @@ export class PlaylistController {
         await BaseDatabase.destroyConnection();
     }
 
+    public async getAllPlaylists(req: Request, res: Response) {
+        try {
+            const token = req.headers.authorization as string;
+            
+            const authenticator = new Authenticator();
+            const authenticationData = authenticator.getData(token);
+
+            if(!authenticationData) {
+                throw new Error("Token não autorizado.")
+            }
+
+            const playlists = await PlaylistController.PlaylistBusiness.getAllPlaylists()
+            
+            res
+            .status(200)
+            .send(playlists);
+        } catch(error) {
+            res
+                .status(error.errorCode || 400)
+                .send({
+                    message: error.message
+                });
+        }
+    }
+
     public async addMusicToPlaylist(req: Request, res: Response) {
         try{
             const token = req.headers.authorization as string;

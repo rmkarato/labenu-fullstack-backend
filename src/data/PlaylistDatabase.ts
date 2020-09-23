@@ -28,6 +28,14 @@ export class PlaylistDatabase extends BaseDatabase {
             .into(this.TABLE_NAME);
     }
 
+    public async getPlaylists(): Promise<any> {
+        const result = await super.getConnection()
+            .select("*")
+            .from(this.TABLE_NAME)
+        
+            return result;
+    }
+
     public async insertOneMusicToPlaylist(
         musicId: string,
         playlistId: string

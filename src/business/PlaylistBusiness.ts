@@ -37,6 +37,12 @@ export class PlaylistBusiness {
         );
     }
 
+    public async getAllPlaylists(): Promise<any> {
+        const playlists = await this.playlistDatabase.getPlaylists();
+
+        return playlists;
+    }
+
     public async addMusicToPlaylist(
         token: string,
         musicId: string,
