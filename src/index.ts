@@ -5,6 +5,7 @@ import { AddressInfo } from "net";
 import { userRouter } from "./router/UserRouter";
 import { musicRouter } from "./router/MusicRouter";
 import { genreRouter } from "./router/GenreRouter";
+import { playlistRouter } from "./router/PlaylistRouter";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use("/user", userRouter);
 app.use("/music", musicRouter);
 app.use("/genre", genreRouter);
+app.use("/playlist", playlistRouter);
 
 app.get("/test", async (req: Request, res: Response) => {
     try {

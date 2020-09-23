@@ -40,7 +40,9 @@ export class UserDatabase extends BaseDatabase {
             return this.toModel(result[0]);
     }
 
-    public async getUserByNickname(nickname: string) :Promise<User | undefined> {
+    public async getUserByNickname(
+        nickname: string
+    ) :Promise<User | undefined> {
         const result = await super.getConnection()
             .select("*")
             .from(this.TABLE_NAME)
