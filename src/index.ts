@@ -25,7 +25,7 @@ app.get("/test", async (req: Request, res: Response) => {
     }
 });
 
-const server = app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.PORT || 3003, () => {
     if (server) {
       const address = server.address() as AddressInfo;
       console.log(`Server is running in http://localhost:${address.port}`);
