@@ -13,6 +13,7 @@ export class MusicController {
     private static MusicBusiness = new MusicBusiness(
         new Authenticator(),
         new IdGenerator(),
+        new UserDatabase(),
         new MusicDatabase(),
         new GenreDatabase()
     );
@@ -99,6 +100,29 @@ export class MusicController {
                     message: error.message
                 });
         }
-        await BaseDatabase.destroyConnection()
+        await BaseDatabase.destroyConnection();
+    }
+
+    public async deleteMusic(req: Request, res: Response) {
+        try {
+            const token = req.headers.authorization as string;
+
+            const id = req.params.id;
+            
+            await MusicController.MusicBusiness.deleteMusic(id, token)
+            
+            res
+                .status(200)
+                .send({
+                    message: "Música deletada com sucesso."
+                });
+        } catch(error) {
+            res
+                .status(error.errorCode || 400)
+                .send({
+                    message: error.message
+                });
+        }
+        await BaseDatabase.destroyConnection();
     }
 }

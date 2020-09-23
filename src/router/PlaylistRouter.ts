@@ -6,3 +6,4 @@ const playlistController = new PlaylistController();
 
 playlistRouter.post("/create", playlistController.createPlaylist);
 playlistRouter.post("/add", playlistController.addMusicToPlaylist);
+playlistRouter.get("/:id", playlistController.getPlaylistDetails);

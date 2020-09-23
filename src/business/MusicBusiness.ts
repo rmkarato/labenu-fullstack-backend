@@ -1,16 +1,19 @@
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
+import { UserDatabase } from "../data/UserDatabase";
 import { MusicDatabase } from "../data/MusicDatabase";
 import { GenreDatabase } from "../data/GenreDatabase";
 import { Music, MusicAndGenreOutputDTO, MusicInputDTO, MusicOutputDTO } from "../model/Music";
 import { InvalidParameterError } from "../errors/InvalidParameterError";
 import { InsertGenreToMusicInputDTO } from "../model/Genre";
 import { GenericError } from "../errors/GenericError";
+import { NotFoundError } from "../errors/NotFoundError";
 
 export class MusicBusiness {
     constructor (
         private authenticator: Authenticator,
         private idGenerator: IdGenerator,
+        private userDatabase: UserDatabase,
         private musicDatabase: MusicDatabase,
         private genreDatabase: GenreDatabase
     ) {}
@@ -103,5 +106,19 @@ export class MusicBusiness {
             genres: genreNames
         }
         return result;
+    }
+
+    public async deleteMusic(
+        id: string,
+        token: string
+    ) {
+        const authenticationData = this.authenticator.getData(token)
+        const user = await this.userDatabase.getUserById(authenticationData.id)
+
+        if(!user) {
+            throw new NotFoundError("Usuário não encontrado. Faça novo login.")
+        }
+
+        await this.musicDatabase.deleteMusic(id)
     }
 }

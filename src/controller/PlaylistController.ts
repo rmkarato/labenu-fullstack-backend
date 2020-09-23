@@ -70,5 +70,27 @@ export class PlaylistController {
                     message: error.message
                 });
         }
+        await BaseDatabase.destroyConnection();
+    }
+
+    public async getPlaylistDetails(req: Request, res: Response) {
+        try{
+            const token = req.headers.authorization as string;
+            
+            const { id } = req.params;
+
+            const result = await PlaylistController.PlaylistBusiness.getPlaylistDetails(token, id)
+            
+            res
+                .status(200)
+                .send(result);
+        } catch(error) {
+            res
+                .status(error.errorCode || 400)
+                .send({
+                    message: error.message
+                });
+        }
+        await BaseDatabase.destroyConnection();
     }
 }

@@ -7,3 +7,4 @@ const musicController = new MusicController();
 musicRouter.post("/create", musicController.createMusic);
 musicRouter.get("/all", musicController.getAllMusics);
 musicRouter.get("/:id", musicController.getMusicById);
+musicRouter.delete("/delete/:id", musicController.deleteMusic);

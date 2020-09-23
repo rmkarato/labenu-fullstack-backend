@@ -69,4 +69,23 @@ export class PlaylistBusiness {
 
         await this.playlistDatabase.insertOneMusicToPlaylist(musicId, playlistId)
     }
+
+    public async getPlaylistDetails(
+        token: string,
+        playlistId: string,
+    ) {
+        const authenticationData = this.authenticator.getData(token)
+        const user = await this.userDatabase.getUserById(authenticationData.id)
+
+        if(!user) {
+            throw new NotFoundError("Usuário não encontrado. Faça novo login.")
+        }
+
+        const playlistDetail = await this.playlistDatabase.getPlaylistDetails(playlistId)
+
+        if(!playlistDetail) {
+            throw new NotFoundError("Playlist não encontrada!")
+        }
+        return playlistDetail;
+    }
 }

@@ -63,4 +63,27 @@ export class PlaylistDatabase extends BaseDatabase {
             `)
             return result[0]
     }
+
+    public async getPlaylistDetails(
+        playlistId: string,
+    ): Promise<Playlist | undefined> {
+        const result = await super.getConnection()
+            .raw(`
+                SELECT
+                    p.id,
+                    p.title,
+                    p.subtitle,
+                    m.id, 
+                    m.title,
+                    m.album,
+                    m.author,
+                FROM SoundLabe_Playlists p
+                JOIN SoundLabe_MusicPlaylist mp ON p.id = mp.playlist_id
+                JOIN SoundLabe_Music m ON mp.music_id = m.id
+                WHERE p.id = "${playlistId}"
+                ORDER BY m.title
+            `)
+            return result[0]
+    }
+    
 }
