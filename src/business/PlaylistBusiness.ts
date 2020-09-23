@@ -88,4 +88,18 @@ export class PlaylistBusiness {
         }
         return playlistDetail;
     }
+
+    public async deletePlaylist(
+        id: string,
+        token: string
+    ) {
+        const authenticationData = this.authenticator.getData(token)
+        const user = await this.userDatabase.getUserById(authenticationData.id)
+
+        if(!user) {
+            throw new NotFoundError("Usuário não encontrado. Faça novo login.")
+        }
+
+        await this.playlistDatabase.deletePlaylist(id)
+    }
 }

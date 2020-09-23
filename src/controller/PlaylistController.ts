@@ -93,4 +93,27 @@ export class PlaylistController {
         }
         await BaseDatabase.destroyConnection();
     }
+
+    public async deletePlaylist(req: Request, res: Response) {
+        try {
+            const token = req.headers.authorization as string;
+
+            const id = req.params.id;
+            
+            await PlaylistController.PlaylistBusiness.deletePlaylist(id, token)
+            
+            res
+                .status(200)
+                .send({
+                    message: "Playlist deletada com sucesso."
+                });
+        } catch(error) {
+            res
+                .status(error.errorCode || 400)
+                .send({
+                    message: error.message
+                });
+        }
+        await BaseDatabase.destroyConnection();
+    }
 }

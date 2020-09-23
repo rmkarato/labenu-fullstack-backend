@@ -45,22 +45,21 @@ export class MusicDatabase extends BaseDatabase {
     ): Promise<void> {
 
         await super.getConnection()
-        .raw(`
-            DELETE from SoundLabe_MusicPlaylist
-            WHERE music_id = "${id}"
-        `)
+            .raw(`
+                DELETE from SoundLabe_MusicPlaylist
+                WHERE music_id = "${id}"
+            `)
         
         await super.getConnection()
-        .raw(`
-            DELETE FROM SoundLabe_MusicGenre
-            WHERE music_id= "${id}"
-        `)
+            .raw(`
+                DELETE FROM SoundLabe_MusicGenre
+                WHERE music_id= "${id}"
+            `)
 
         await super.getConnection()
-        .raw(`
-            DELETE from SoundLabe_Music
-            WHERE id = "${id}"
-        `)
-
+            .raw(`
+                DELETE from SoundLabe_Music
+                WHERE id = "${id}"
+            `)
     }
 }

@@ -86,4 +86,19 @@ export class PlaylistDatabase extends BaseDatabase {
             return result[0]
     }
     
+    public async deletePlaylist(
+        id: string
+    ): Promise<void> {
+        await super.getConnection()
+            .raw(`
+                DELETE from SoundLabe_MusicPlaylist
+                WHERE playlist_id = "${id}"
+            `)
+
+        await super.getConnection()
+            .raw(`
+                DELETE from SoundLabe_Playlists
+                WHERE id = "${id}"
+            `)
+    }
 }
